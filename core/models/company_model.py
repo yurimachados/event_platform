@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 class Company(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    image = models.ImageField(upload_to='company_images/', null=True, blank=True)
-    cover = models.ImageField(upload_to='company_covers/', null=True, blank=True)
+    image = models.ImageField(upload_to='images/company_images/', null=True, blank=True)
+    cover = models.ImageField(upload_to='images/company_covers/', null=True, blank=True)
     location = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):

@@ -8,8 +8,8 @@ class Event(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='events')
     title = models.CharField(max_length=255)
     description = models.TextField()
-    image = models.ImageField(upload_to='event_images/', null=True, blank=True)
-    cover = models.ImageField(upload_to='event_covers/', null=True, blank=True)
+    image = models.ImageField(upload_to='images/event_images/', null=True, blank=True)
+    cover = models.ImageField(upload_to='images/event_covers/', null=True, blank=True)
     location = models.CharField(max_length=255)
     date = models.DateTimeField()
 
