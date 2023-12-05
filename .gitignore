@@ -47,3 +47,6 @@ media/
 *.png
 *.gif
 *.svg
+
+# Ignorar o cache do pytest
+.pytest_cache/
