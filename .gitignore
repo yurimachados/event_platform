@@ -1,0 +1,52 @@
+# Arquivos de bytecode Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Arquivos de ambiente virtual
+venv/
+ENV/
+
+# Arquivos de banco de dados SQLite
+*.sqlite3
+*.sqlite3-journal
+
+# Arquivos de log
+*.log
+
+# Arquivos locais de configuração
+local_settings.py
+
+# Pasta usada para estáticos pelo comando collectstatic
+static/
+
+# Pasta media usada para arquivos enviados pelos usuários
+media/
+
+# Arquivos do PyCharm
+.idea/
+
+# Arquivos do VS Code
+.vscode/
+
+# Arquivos do Jupyter Notebook
+.ipynb_checkpoints/
+
+# Arquivos de ambiente do Poetry
+.pyenv/
+.poetry/
+
+# Arquivos de ambiente do pipenv
+.Pipfile
+.Pipfile.lock
+
+# Ignorar arquivos de imagem
+/images
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.svg
+
+# Ignorar o cache do pytest
+.pytest_cache/
