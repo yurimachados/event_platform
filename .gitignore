@@ -41,6 +41,7 @@ media/
 .Pipfile.lock
 
 # Ignorar arquivos de imagem
+/images
 *.jpg
 *.jpeg
 *.png
