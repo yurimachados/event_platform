@@ -50,3 +50,6 @@ media/
 
 # Ignorar o cache do pytest
 .pytest_cache/
+
+# dotenv
+.env
