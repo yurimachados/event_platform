@@ -39,3 +39,10 @@ media/
 # Arquivos de ambiente do pipenv
 .Pipfile
 .Pipfile.lock
+
+# Ignorar arquivos de imagem
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.svg
