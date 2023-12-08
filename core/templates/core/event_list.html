@@ -1,0 +1,28 @@
+{% extends "./base.html" %}
+
+{% block title %}
+  Eventos
+{% endblock %}
+
+{% block content %}
+    <h1>Lista de Eventos</h1>
+    <a href="{% url 'event-create' %}" class="btn btn-primary mb-3">Criar Evento</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Data</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
+                <tr>
+                    <td>{{ event.title }}</td>
+                    <td>{{ event.date|date:"d/m/y H:i" }}</td>
+                    <td><a href="{% url 'event-detail' event.id %}">Ver detalhes</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

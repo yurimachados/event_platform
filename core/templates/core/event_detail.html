@@ -1,0 +1,33 @@
+{% extends "./base.html" %}
+
+{% block title %}
+  {{ event.title }}
+{% endblock %}
+
+{% block extra_head %}
+<script>
+  $(document).ready(function() {
+      $('#event-list-button').click(function() {
+          window.location.href = "{% url 'event-list' %}";
+      });
+      $('#event-edit').click(function() {
+          window.location.href = "{% url 'event-update' event.id %}";
+      });
+      $('#event-delete').click(function() {
+          window.location.href = "{% url 'event-delete' event.id %}";
+      });
+
+  });
+</script>
+
+{% endblock %}
+
+{% block content %}
+    <button class="btn btn-primary" id="event-list-button" href="{% url 'event-list' %}">Eventos</button>
+    <h1>{{ event.title }}</h1>
+    <p>Data: {{ event.date }}</p>
+    <p>Localização: {{ event.location }}</p>
+    <p>{{ event.description }}</p>
+    <button class="btn btn-primary" id='event-edit' href="">Editar</button>
+    <button class="btn btn-danger" id='event-delete' href="">Excluir</button>
+{% endblock %}
