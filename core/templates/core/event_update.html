@@ -1,0 +1,24 @@
+{% extends "./base.html" %}
+
+{% block title %}
+  {{ event.title }} | editar
+{% endblock %}
+
+{% block extra_head %}
+<script>
+
+</script>
+{% endblock %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  {% if form.errors %}
+    <div class="alert alert-danger">
+      {{ form.errors }}
+    </div>
+  {% endif %}
+  <button type="submit">Atualizar</button>
+</form>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "./base.html" %}
+
+{% block title %}
+  Criar Evento
+{% endblock %}
+
+{% block extra_head %}
+<script>
+  $(document).ready(function() {
+      $('#event-list-button').click(function() {
+          window.location.href = "{% url 'event-list' %}";
+      });
+      $('#event-edit').click(function() {
+          {% comment %} window.location.href = "{% url 'event-edit' event.id %}"; {% endcomment %}
+      });
+      $('#event-delete').click(function() {
+          {% comment %} window.location.href = "{% url 'event-delete' event.id %}"; {% endcomment %}
+      });
+
+  });
+</script>
+
+{% endblock %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  {% if form.errors %}
+    <div class="alert alert-danger">
+      {{ form.errors }}
+    </div>
+  {% endif %}
+  <button type="submit">Criar</button>
+</form>
+{% endblock %}
