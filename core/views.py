@@ -43,6 +43,14 @@ class EventUpdateView(UpdateView):
     template_name = 'core/event_update.html'
     success_url = reverse_lazy('event-list')
 
+    def get_form(self, **kwargs):
+        form = super().get_form(**kwargs)
+
+        if self.object:
+            form.fields['date'].widget = forms.TextInput(attrs={'class': 'form-control', 'type': 'datetime-local'})
+        
+        return form
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['companies'] = Company.objects.all()
