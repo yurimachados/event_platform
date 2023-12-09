@@ -5,24 +5,24 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Lista de Eventos</h1>
-    <a href="{% url 'event-create' %}" class="btn btn-primary mb-3">Criar Evento</a>
-    <table>
-        <thead>
-            <tr>
-                <th>Título</th>
-                <th>Data</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for event in events %}
-                <tr>
-                    <td>{{ event.title }}</td>
-                    <td>{{ event.date|date:"d/m/y H:i" }}</td>
-                    <td><a href="{% url 'event-detail' event.id %}">Ver detalhes</a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <h1>Eventos</h1>
+    <a href="{% url 'event-create' %}" class="btn btn-primary mb-3">+ Evento</a>
+    
+    <div class="row">
+        {% for event in events %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    {% comment %} <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}"> {% endcomment %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.title }} - {{ event.company }}</h5>
+                        <hr>
+                        <p class="card-text">{{ event.date|date:"d/m/y H:i" }}</p>
+                        <p class="card-text">{{ event.description }}</p>
+                        <hr>
+                        <a href="{% url 'event-detail' event.id %}" class="btn btn-info">Ver detalhes</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
