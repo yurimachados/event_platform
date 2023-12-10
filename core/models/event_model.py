@@ -22,6 +22,11 @@ class Event(models.Model):
 
     def __str__(self):
         return f"{self.title} - {self.date.strftime('%d/%m')}"
+    
+    class Meta:
+        verbose_name = 'Event'
+        verbose_name_plural = 'Events'
+        ordering = ['date']
 
 class Comment(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='comments')
@@ -32,6 +37,11 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.user.username} commented on {self.event.title}'
+    
+    class Meta:
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
+        ordering = ['comment_date']
 
 class Rating(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='ratings')
@@ -40,3 +50,8 @@ class Rating(models.Model):
 
     def __str__(self):
         return f'{self.user.username} rated {self.score}'
+    
+    class Meta:
+        verbose_name = 'Rating'
+        verbose_name_plural = 'Ratings'
+        ordering = ['score']
