@@ -12,6 +12,7 @@ class Event(models.Model):
     cover = models.ImageField(upload_to='images/event_covers/', null=True, blank=True)
     location = models.CharField(max_length=255)
     date = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def average_rating(self):
         total_ratings = self.ratings.count()
@@ -32,8 +33,9 @@ class Comment(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
-    comment_date = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name='liked_comments', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.user.username} commented on {self.event.title}'
@@ -41,7 +43,7 @@ class Comment(models.Model):
     class Meta:
         verbose_name = 'Comment'
         verbose_name_plural = 'Comments'
-        ordering = ['comment_date']
+        ordering = ['created_at']
 
 class Rating(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='ratings')
