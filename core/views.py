@@ -2,15 +2,19 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect
 from .models import Event, Company
-from django import forms
 from .forms import RegistrationForm
+from django import forms
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
+@method_decorator(login_required, name='dispatch')
 class EventListView(ListView):
     model = Event
     template_name = 'core/event_list.html'
     context_object_name = 'events'
 
+@method_decorator(login_required, name='dispatch')
 class EventDetailView(DetailView):
     model = Event
     template_name = 'core/event_detail.html'
@@ -20,7 +24,7 @@ class EventDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['comments'] = self.object.comments.all()
         return context
-    
+
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
@@ -29,6 +33,7 @@ class EventForm(forms.ModelForm):
             'date': forms.DateTimeInput(format=('%d-%m-%Y %H:%M'), attrs={'class':'form-control', 'placeholder':'Select a date', 'type':'datetime-local'}),
         }
 
+@method_decorator(login_required, name='dispatch')
 class EventCreateView(CreateView):
     model = Event
     form_class = EventForm
@@ -40,6 +45,7 @@ class EventCreateView(CreateView):
         context['companies'] = Company.objects.all()
         return context
 
+@method_decorator(login_required, name='dispatch')
 class EventUpdateView(UpdateView):
     model = Event
     form_class = EventForm
@@ -59,6 +65,7 @@ class EventUpdateView(UpdateView):
         context['companies'] = Company.objects.all()
         return context
 
+@method_decorator(login_required, name='dispatch')
 class EventDeleteView(DeleteView):
     model           = Event
     template_name   = 'core/event_delete.html'
