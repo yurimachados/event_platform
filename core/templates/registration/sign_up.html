@@ -1,0 +1,20 @@
+{% extends "core/base.html" %}
+
+{% block title %}
+  Criar conta
+{% endblock %}
+
+{% block extra_head %}
+<script>
+
+</script>
+{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<form method="POST">
+  {% csrf_token %}
+  {{form|crispy}}
+  <p>Já tem uma conta? Faça o <a href="/login">Login</a></p>
+  <button class="btn btn-primary" type="submit">Cadastrar</button>
+</form>
+{% endblock %}
