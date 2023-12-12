@@ -90,3 +90,8 @@ def buy_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     TicketPurchase.objects.create(ticket=ticket, buyer=request.user)
     return redirect('/event-list')
+
+@login_required(login_url='login')
+def user_tickets(request):
+    tickets = TicketPurchase.objects.filter(buyer=request.user)
+    return render(request, 'core/user-tickets.html', {'tickets' : tickets})

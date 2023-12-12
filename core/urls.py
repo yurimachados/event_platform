@@ -13,6 +13,7 @@ urlpatterns = [
     #ticket urls
     path('event-tickets/<int:event_id>', views.event_tickets, name='event-tickets'),
     path('buy-ticket/<int:ticket_id>', views.buy_ticket, name='buy-ticket'),
+    path('user-tickets/', views.user_tickets, name='user-tickets'),
     # path('ticket-detail/<int:pk>/', views.ticket_details, name='ticket-details'),
     # path('ticket-detail/<int:pk>/', views.ticket_details, name='ticket-details'),
 
