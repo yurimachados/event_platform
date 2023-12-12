@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.shortcuts import render, redirect
-from .models import Event, Company
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Event, Company, Ticket, TicketPurchase
 from .forms import RegistrationForm, EventForm
 from django import forms
 from django.contrib.auth import login, logout, authenticate
@@ -21,8 +21,11 @@ class EventDetailView(DetailView):
     context_object_name = 'event'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['comments'] = self.object.comments.all()
+        context             = super().get_context_data(**kwargs)
+        event               = self.get_object()
+        tickets             = Ticket.objects.filter(event=event)
+        context['comments'] = event.comments.all()
+        context['tickets']  = tickets
         return context
 
 @method_decorator(login_required(login_url='login'), name='dispatch')
@@ -75,3 +78,20 @@ def sign_up(request):
         form = RegistrationForm()
 
     return render(request, 'registration/sign_up.html', {"form": form}) 
+
+@login_required(login_url='login')
+def event_tickets(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    tickets = Ticket.objects.filter(event__id = event_id, available = True)
+    return render(request, 'core/event-tickets.html', {'tickets': tickets, 'event': event})
+
+@login_required(login_url='login')
+def buy_ticket(request, ticket_id):
+    ticket = get_object_or_404(Ticket, pk=ticket_id)
+    TicketPurchase.objects.create(ticket=ticket, buyer=request.user)
+    return redirect('/event-list')
+
+@login_required(login_url='login')
+def user_tickets(request):
+    tickets = TicketPurchase.objects.filter(buyer=request.user)
+    return render(request, 'core/user-tickets.html', {'tickets' : tickets})

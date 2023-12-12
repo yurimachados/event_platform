@@ -5,27 +5,61 @@
 {% endblock %}
 
 {% block extra_head %}
-<script>
-
-</script>
-
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block content %}
   <a class="btn btn-primary mb-2" id="event-list-button" href="{% url 'event-list' %}">← Eventos</a>
   <div class='card'>
-      <div class='card-header justify-content-between'>
+      <div class='card-header d-flex flex-row justify-content-between'>
         <h2 class='card-text'>{{ event.title }}</h2>
+        <p>{{ event.date|date:'d/m/y H:i' }}</p>
       </div>
       <div class='card-body'>
-        <p>Localização: {{ event.location }}</p>
+        <strong>Local: {{ event.location }}</strong>
         <p>{{ event.description }}</p>
-        <p>Data: {{ event.date }}</p>              
+        <div class="list-group">
+          {% for ticket in tickets %}
+          <li class='list-group-item d-flex flex-row justify-content-between'>
+              <p>{{ ticket.name }}</p>
+              <p>{% if ticket.price == 0 %} Free {% else %} R${{ ticket.price }}{% endif %}</p>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#purchaseModal{{ ticket.id }}">
+                Comprar
+              </button>
+          </li>
+          {% endfor %}
+        </div>            
       </div>
       <div class='card-footer'>
         <a class="btn btn-primary" id='event-edit' href="{% url 'event-update' event.id %}">Editar</a>
         <a class="btn btn-danger" id='event-delete' href="{% url 'event-delete' event.id %}">Excluir</a>
-        <a class="btn btn-info" id='event-delete' href="">Ingressos</a>
       </div>          
   </div>
+  {% for ticket in tickets %}
+    <div class="modal fade" id="purchaseModal{{ ticket.id }}" tabindex="-1" role="dialog" aria-labelledby="purchaseModalLabel{{ ticket.id }}" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="purchaseModalLabel{{ ticket.id }}">Confirmar Compra de {{ ticket.name }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Você está prestes a comprar um ingresso para {{ ticket.event.title }} pelo preço de R${{ ticket.price }}. Você confirma essa compra?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <a href="{% url 'buy-ticket' ticket.id %}" class="btn btn-primary">Confirmar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+{% endblock %}
+{% block extra_scripts %}
+
 {% endblock %}
