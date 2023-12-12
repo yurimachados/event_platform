@@ -2,7 +2,6 @@ import secrets
 from django.db import models
 from django.contrib.auth.models import User
 from .event_model import Event
-from .customer_model import Customer
 
 class Ticket(models.Model):
     event               = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='tickets')
@@ -22,7 +21,7 @@ class TicketPurchase(models.Model):
     ticket              = models.ForeignKey(Ticket, on_delete=models.PROTECT, related_name='purchases', null=True)
     ticket_name         = models.CharField(max_length=255, blank=True)
     ticket_price        = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
-    buyer               = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, related_name='ticket_purchases')
+    buyer               = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='ticket_purchases')
     code                = models.CharField(max_length=8, unique=True, blank=True)
     date                = models.DateTimeField(auto_now_add=True)
     
