@@ -25,7 +25,7 @@
       <div class='card-footer'>
         <a class="btn btn-primary" id='event-edit' href="{% url 'event-update' event.id %}">Editar</a>
         <a class="btn btn-danger" id='event-delete' href="{% url 'event-delete' event.id %}">Excluir</a>
-        <a class="btn btn-info" id='event-delete' href="">Ingressos</a>
+        <a class="btn btn-info" id='event-delete' href="{% url 'event-tickets' event.id %}">Ingressos</a>
       </div>          
   </div>
 {% endblock %}

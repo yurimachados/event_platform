@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.shortcuts import render, redirect
-from .models import Event, Company
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Event, Company, Ticket, TicketPurchase
 from .forms import RegistrationForm, EventForm
 from django import forms
 from django.contrib.auth import login, logout, authenticate
@@ -75,3 +75,8 @@ def sign_up(request):
         form = RegistrationForm()
 
     return render(request, 'registration/sign_up.html', {"form": form}) 
+
+def event_tickets(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    tickets = Ticket.objects.filter(event__id = event_id, available = True)
+    return render(request, 'core/event-tickets.html', {'tickets': tickets, 'event': event})

@@ -1,0 +1,45 @@
+{% extends './base.html' %}
+{% block title %} {{ event.title }} {% endblock %}
+{% block content %}
+
+    {% comment %} <div class='row'> {% endcomment %}
+        <div class='card'>
+            <div class='card-header'>
+                <h3>Ingressos</h3>
+            </div>
+            <div class='card-body'>
+                <div class="list-group">
+                    {% for ticket in tickets %}
+                    <button type="button" class="list-group-item list-group-item-action">
+                        {{ ticket.name }} - {{ event.title }} - {{ ticket.price }}
+                    </button>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class='card-footer'>
+                <a href="{% url 'event-detail' event.id %}" class="btn btn-info">Voltar</a>
+            </div>
+        </div>
+
+        
+        {% comment %} <div class="row">
+            {% for ticket in tickets %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class='card-header d-flex flex-row justify-content-between'>
+                            <h6 class="card-title">{{ ticket.name }} - {{ event.title }}</h6>
+                            <p class="card-text">{{ event.date|date:'d/m/y H:i' }}</p>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">R$ {{ ticket.price }}</p>
+                        </div>
+                        <div class="card-footer d-flex flex-row justify-content-between">
+                            
+                            <a href="" class="btn btn-success">Comprar</a>
+                        </div>
+                    </div> 
+                </div>
+            {% endfor %}
+        </div>
+    </div> {% endcomment %}
+{% endblock %}
