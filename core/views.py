@@ -79,7 +79,14 @@ def sign_up(request):
 
     return render(request, 'registration/sign_up.html', {"form": form}) 
 
+@login_required(login_url='login')
 def event_tickets(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     tickets = Ticket.objects.filter(event__id = event_id, available = True)
     return render(request, 'core/event-tickets.html', {'tickets': tickets, 'event': event})
+
+@login_required(login_url='login')
+def buy_ticket(request, ticket_id):
+    ticket = get_object_or_404(Ticket, pk=ticket_id)
+    TicketPurchase.objects.create(ticket=ticket, buyer=request.user)
+    return redirect('/event-list')
