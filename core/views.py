@@ -21,8 +21,11 @@ class EventDetailView(DetailView):
     context_object_name = 'event'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['comments'] = self.object.comments.all()
+        context             = super().get_context_data(**kwargs)
+        event               = self.get_object()
+        tickets             = Ticket.objects.filter(event=event)
+        context['comments'] = event.comments.all()
+        context['tickets']  = tickets
         return context
 
 @method_decorator(login_required(login_url='login'), name='dispatch')

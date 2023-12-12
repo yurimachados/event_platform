@@ -14,18 +14,25 @@
 {% block content %}
   <a class="btn btn-primary mb-2" id="event-list-button" href="{% url 'event-list' %}">← Eventos</a>
   <div class='card'>
-      <div class='card-header justify-content-between'>
+      <div class='card-header d-flex flex-row justify-content-between'>
         <h2 class='card-text'>{{ event.title }}</h2>
+        <p>{{ event.date|date:'d/m/y H:i' }}</p>
       </div>
       <div class='card-body'>
-        <p>Localização: {{ event.location }}</p>
+        <strong>Local: {{ event.location }}</strong>
         <p>{{ event.description }}</p>
-        <p>Data: {{ event.date }}</p>              
+        <div class="list-group">
+          {% for ticket in tickets %}
+          <button type="button" class="list-group-item list-group-item-action d-flex flex-row justify-content-between">
+              <p>{{ ticket.name }} - {{ event.title }}</p>
+              <p>{% if ticket.price == 0 %} Free {% else %} R${{ ticket.price }}{% endif %}</p>
+          </button>
+          {% endfor %}
+        </div>            
       </div>
       <div class='card-footer'>
         <a class="btn btn-primary" id='event-edit' href="{% url 'event-update' event.id %}">Editar</a>
         <a class="btn btn-danger" id='event-delete' href="{% url 'event-delete' event.id %}">Excluir</a>
-        <a class="btn btn-info" id='event-delete' href="{% url 'event-tickets' event.id %}">Ingressos</a>
       </div>          
   </div>
 {% endblock %}
