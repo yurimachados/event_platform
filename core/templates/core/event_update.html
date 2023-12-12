@@ -9,16 +9,26 @@
 
 </script>
 {% endblock %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-<form method="POST" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if form.errors %}
-    <div class="alert alert-danger">
-      {{ form.errors }}
-    </div>
-  {% endif %}
-  <button class='btn btn-primary' type="submit">Atualizar</button>
-</form>
+
+<div class="container mt-4">
+
+  <div class='card'>
+    <form method="POST" class='' enctype="multipart/form-data">
+      <div class='card-header'>
+        <h4>{{event.title}}</h4>
+      </div>
+      <div class='card-body'>
+        {% csrf_token %}
+        {{form|crispy}}
+      </div>
+      <div class='card-footer'>
+        <button type='submit' class="btn btn-primary">Salvar</button>
+        <a href="{% url 'event-detail' event.id %}" class="btn btn-secondary">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}

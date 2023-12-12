@@ -6,31 +6,28 @@
 
 {% block extra_head %}
 <script>
-  $(document).ready(function() {
-      $('#event-list-button').click(function() {
-          window.location.href = "{% url 'event-list' %}";
-      });
-      $('#event-edit').click(function() {
-          {% comment %} window.location.href = "{% url 'event-edit' event.id %}"; {% endcomment %}
-      });
-      $('#event-delete').click(function() {
-          {% comment %} window.location.href = "{% url 'event-delete' event.id %}"; {% endcomment %}
-      });
-
-  });
 </script>
-
 {% endblock %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
-<form method="POST" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if form.errors %}
-    <div class="alert alert-danger">
-      {{ form.errors }}
-    </div>
-  {% endif %}
-  <button type="submit">Criar</button>
-</form>
+<div class="container mt-4">
+
+  <a class="btn btn-primary mb-2" id="event-list-button" href="{% url 'event-list' %}">← Eventos</a>
+  <div class='card'>
+    <form method="POST" class='' enctype="multipart/form-data">
+      <div class='card-header'>
+        <h4>{{event.title}}</h4>
+      </div>
+      <div class='card-body'>
+        {% csrf_token %}
+        {{form|crispy}}
+      </div>
+      <div class='card-footer'>
+        <button type='submit' class="btn btn-primary">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}

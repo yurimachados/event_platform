@@ -5,10 +5,18 @@
 {% block content %}
 <form method="post">
     {% csrf_token %}
-    {{form|crispy}}
-    <p class='mt-3'>Ainda não tem uma conta? Crie uma <a href="/sign-up">aqui</a></p>
-    <div class="form-group">
-        <input type="submit" value="Login" class="btn btn-primary mt-3">
+    <div class='card'>
+        <div class='card-header'>
+          <h4>Login</h4>  
+        </div>
+        <div class='card-body'>
+            
+            {{form|crispy}} 
+        </div>
+        <div class='card-footer'>
+            <p class='mt-3'>Ainda não tem uma conta? Crie uma <a href="/sign-up">aqui</a></p>
+            <input type="submit" value="Login" class="btn btn-primary mt-3">
+        </div>
     </div>
 </form>
 {% endblock %}

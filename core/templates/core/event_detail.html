@@ -6,28 +6,26 @@
 
 {% block extra_head %}
 <script>
-  $(document).ready(function() {
-      $('#event-list-button').click(function() {
-          window.location.href = "{% url 'event-list' %}";
-      });
-      $('#event-edit').click(function() {
-          window.location.href = "{% url 'event-update' event.id %}";
-      });
-      $('#event-delete').click(function() {
-          window.location.href = "{% url 'event-delete' event.id %}";
-      });
 
-  });
 </script>
 
 {% endblock %}
 
 {% block content %}
-    <button class="btn btn-primary" id="event-list-button" href="{% url 'event-list' %}">Eventos</button>
-    <h1>{{ event.title }}</h1>
-    <p>Data: {{ event.date }}</p>
-    <p>Localização: {{ event.location }}</p>
-    <p>{{ event.description }}</p>
-    <button class="btn btn-primary" id='event-edit' href="">Editar</button>
-    <button class="btn btn-danger" id='event-delete' href="">Excluir</button>
+  <a class="btn btn-primary mb-2" id="event-list-button" href="{% url 'event-list' %}">← Eventos</a>
+  <div class='card'>
+      <div class='card-header justify-content-between'>
+        <h2 class='card-text'>{{ event.title }}</h2>
+      </div>
+      <div class='card-body'>
+        <p>Localização: {{ event.location }}</p>
+        <p>{{ event.description }}</p>
+        <p>Data: {{ event.date }}</p>              
+      </div>
+      <div class='card-footer'>
+        <a class="btn btn-primary" id='event-edit' href="{% url 'event-update' event.id %}">Editar</a>
+        <a class="btn btn-danger" id='event-delete' href="{% url 'event-delete' event.id %}">Excluir</a>
+        <a class="btn btn-info" id='event-delete' href="">Ingressos</a>
+      </div>          
+  </div>
 {% endblock %}
