@@ -10,8 +10,9 @@
             <div class='card-body'>
                 <div class="list-group">
                     {% for ticket in tickets %}
-                    <button type="button" class="list-group-item list-group-item-action">
-                        {{ ticket.name }} - {{ event.title }} - {{ ticket.price }}
+                    <button type="button" class="list-group-item list-group-item-action d-flex flex-row justify-content-between">
+                        <p>{{ ticket.name }} - {{ event.title }}</p>
+                        <p>{% if ticket.price == 0 %} Free {% else %} R${{ ticket.price }}{% endif %}</p>
                     </button>
                     {% endfor %}
                 </div>
