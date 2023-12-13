@@ -1,5 +1,5 @@
 from django import forms
-from .models import Event, Company
+from .models import Event, Company, Ticket
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -19,4 +19,17 @@ class EventForm(forms.ModelForm):
         fields = ['company','title', 'description', 'image', 'cover', 'location', 'date']
         widgets = {
             'date': forms.DateTimeInput(format=('%Y-%m-%dT%H:%M'), attrs={'class':'form-control', 'placeholder':'Select a date', 'type':'datetime-local'}),
+        }
+
+class TicketForm(forms.ModelForm):
+    events = Event.objects.all()
+
+    class Meta:
+        model = Ticket
+        fields = ['event', 'name', 'price', 'available' ]
+        labels = {
+            'event': 'Evento',
+            'ticket_name': 'Nome',
+            'price': 'Preço',
+            'available': 'Disponível'
         }

@@ -1,0 +1,35 @@
+{% extends "../base.html" %}
+
+{% block title %}
+ {% comment %} add title here {% endcomment %}
+{% endblock %}
+
+{% block extra_head %}
+{% comment %} add extra scripts or css here {% endcomment %}
+{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="mt-4">
+    <h3>Ticket Create</h3>
+    <a class="btn btn-primary mb-2" id="event-list-button" href="{% url 'manage' %}">← Eventos</a>
+    <div class='card'>
+        <form method="POST" class=''>
+            <div class='card-header'>
+                <h4>Criar Novo Evento</h4>
+            </div>
+        <div class='card-body'>
+            {% csrf_token %}
+            {{form|crispy}}
+        </div>
+            <div class='card-footer'>
+                <button type='submit' class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+{% comment %} Add extra scrips here {% endcomment %}
+{% endblock %}

@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Event, Company, Ticket, TicketPurchase
-from .forms import RegistrationForm, EventForm
+from .forms import RegistrationForm, EventForm, TicketForm
 from django import forms
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
@@ -118,3 +118,14 @@ def manage_event_update(request, event_id):
         form = EventForm(instance=event)
 
     return render(request, 'core/manage/manage_event_update.html', {"form": form})
+
+@login_required(login_url='login')
+def ticket_create(request):
+    if request.method == 'POST':
+        form = TicketForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/manage')
+    else:   
+        form = TicketForm()
+    return render(request, 'core/manage/ticket_create.html', {"form": form})
