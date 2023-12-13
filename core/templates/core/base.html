@@ -7,9 +7,13 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- jQuery and Bootstrap Bundle (includes Popper) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background: #f1faee; 
+            background: #f1faee;
+            font-family: 'Poppins', sans-serif;
         }
         .container {
             background: #a8dadc;
@@ -25,7 +29,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Event Hub</a>
         {% if user.is_authenticated %}
-        <span class="navbar-text">Bem vindo! <strong>@</strong>{{user.username}}</span>
+        <span class="navbar-text">Bem vindo! <strong>@{{user.username}}</strong></span>
         {% endif %}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
