@@ -95,3 +95,7 @@ def buy_ticket(request, ticket_id):
 def user_tickets(request):
     tickets = TicketPurchase.objects.filter(buyer=request.user)
     return render(request, 'core/user-tickets.html', {'tickets' : tickets})
+
+@login_required(login_url='login')
+def home(request):
+    return render(request, 'core/home.html')

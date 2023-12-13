@@ -3,6 +3,7 @@ from .views import EventListView, EventDetailView, EventCreateView, EventUpdateV
 from . import views
 
 urlpatterns = [
+    path('', views.home, name='home'),
     #event urls
     path('event-list/', EventListView.as_view(), name='event-list'),
     path('event-detail/<int:pk>/', EventDetailView.as_view(), name='event-detail'),
