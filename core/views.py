@@ -102,4 +102,19 @@ def home(request):
 
 @login_required(login_url='login')
 def manage(request):
-    return render(request, 'core/manage/manage.html')
+    events = Event.objects.all()
+    tickets = Ticket.objects.all()
+    tickets_purchases = TicketPurchase.objects.all()
+    return render(request, 'core/manage/manage.html', {'events': events, 'tickets': tickets, 'tickets_purchases': tickets_purchases})
+
+def manage_event_update(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    if request.method == 'POST':
+        form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            return redirect('/manage')
+    else:
+        form = EventForm(instance=event)
+
+    return render(request, 'core/manage/manage_event_update.html', {"form": form})

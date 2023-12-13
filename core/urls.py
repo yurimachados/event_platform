@@ -20,6 +20,7 @@ urlpatterns = [
 
     #Management URLs
     path('manage/', views.manage, name='manage'),
+    path('manage/event-update/<int:event_id>', views.manage_event_update, name='manage-event-update'),
 
     #login urls
     path('sign-up/', views.sign_up, name='sign_up'),

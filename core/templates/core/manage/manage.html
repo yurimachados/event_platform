@@ -5,14 +5,61 @@ Gerenciar
 {% endblock %}
 
 {% block extra_head %}
-{% comment %} add extra scripts or css here {% endcomment %}
+<style>
+.custom-table {
+    background-color: white;
+}
+</style>
+
 {% endblock %}
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <h1>Gerenciar</h1>
+    <div class='container'>
+        <h1>Oi <strong>@{{ user.username }}</strong>, 👋</h1>
+        <h1>Bem vindo ao Dashboard Gerencial.</h1>
+        <div class='mt-5'>
+            <h3>Eventos</h3>
+            <a href="{% url 'event-create' %}" class="btn btn-primary mb-3">+ Evento</a>
+            <table class="table custom-table table-hover">
+                <thead class='thead-dark'>
+                    <tr class=''>
+                        <th scope="col">#</th>
+                        <th scope="col">Produtora</th>
+                        <th scope="col">Evento</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for event in events %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td scope='row'>{{ event.company }}</td>
+                        <td scope='row'>{{ event.title }}</td>
+                        <td scope='row'>{{ event.date|date:'d/m/y H:i' }}</td>
+                        <td scope='row'>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    Ações
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{% url 'manage-event-update' event.id %}">Editar</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'event-delete' event.id %}">Excluir</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <h3>Tickets</h3>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block extra_scripts %}
-{% comment %} Add extra scrips here {% endcomment %}
 {% endblock %}
