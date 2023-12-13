@@ -1,24 +1,24 @@
-{% extends "./base.html" %}
+{% extends "../base.html" %}
 
 {% block title %}
-Criar Evento
+ {{ event.title }} - editar
 {% endblock %}
 
 {% block extra_head %}
 <script>
+
 </script>
 {% endblock %}
-
 {% load crispy_forms_tags %}
 
 {% block content %}
+
 <div class="container mt-4">
 
-  <a class="btn btn-primary mb-2" id="event-list-button" href="{% url 'manage' %}">← Eventos</a>
   <div class='card'>
     <form method="POST" class='' enctype="multipart/form-data">
       <div class='card-header'>
-        <h4>Criar Novo Evento</h4>
+        <h4>{{event.title}}</h4>
       </div>
       <div class='card-body'>
         {% csrf_token %}
@@ -26,6 +26,7 @@ Criar Evento
       </div>
       <div class='card-footer'>
         <button type='submit' class="btn btn-primary">Salvar</button>
+        <a href="{% url 'manage' %}" class="btn btn-secondary">Cancelar</a>
       </div>
     </form>
   </div>

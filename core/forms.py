@@ -18,5 +18,5 @@ class EventForm(forms.ModelForm):
         model = Event
         fields = ['company','title', 'description', 'image', 'cover', 'location', 'date']
         widgets = {
-            'date': forms.DateTimeInput(format=('%d-%m-%Y %H:%M'), attrs={'class':'form-control', 'placeholder':'Select a date', 'type':'datetime-local'}),
+            'date': forms.DateTimeInput(format=('%Y-%m-%dT%H:%M'), attrs={'class':'form-control', 'placeholder':'Select a date', 'type':'datetime-local'}),
         }

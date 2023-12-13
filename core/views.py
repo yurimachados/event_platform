@@ -33,7 +33,7 @@ class EventCreateView(CreateView):
     model = Event
     form_class = EventForm
     template_name = 'core/event_create.html'
-    success_url = reverse_lazy('event-list')
+    success_url = reverse_lazy('manage')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -64,7 +64,7 @@ class EventUpdateView(UpdateView):
 class EventDeleteView(DeleteView):
     model           = Event
     template_name   = 'core/event_delete.html'
-    success_url = reverse_lazy('event-list')
+    success_url = reverse_lazy('manage')
 
 
 def sign_up(request):
@@ -102,4 +102,19 @@ def home(request):
 
 @login_required(login_url='login')
 def manage(request):
-    return render(request, 'core/manage/manage.html')
+    events = Event.objects.all()
+    tickets = Ticket.objects.all()
+    tickets_purchases = TicketPurchase.objects.all()
+    return render(request, 'core/manage/manage.html', {'events': events, 'tickets': tickets, 'tickets_purchases': tickets_purchases})
+
+def manage_event_update(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    if request.method == 'POST':
+        form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            return redirect('/manage')
+    else:
+        form = EventForm(instance=event)
+
+    return render(request, 'core/manage/manage_event_update.html', {"form": form})
