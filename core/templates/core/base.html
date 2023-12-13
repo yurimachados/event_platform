@@ -48,6 +48,10 @@
               <a class="nav-link" href="{% url 'user-tickets' %}">Meus Ingressos</a>
             </li>
             <li class="nav-item">
+            {% url 'manage' as manage_url %}
+            <li class="nav-item {% if request.path == manage_url%} active {% endif %}">
+              <a class="nav-link" href="{% url 'manage' %}">Gerenciar</a>
+            </li>
             {% if user.is_authenticated %}
                 <a class="nav-link" href="{% url 'logout' %}">Logout</a>
             {% else %}
