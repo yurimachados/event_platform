@@ -29,7 +29,7 @@
                         {% for ticket in tickets %}
                             <tr>
                             <td>{{ ticket.ticket }}</td>
-                            <td>{{ ticket.ticket.event.date }}</td>
+                            <td>{{ ticket.ticket.event.date|date:'d/m/y H:i' }}</td>
                             <td>{{ ticket.ticket.event.location }}</td>
                             <td>{{ ticket.code }}</td>
                             </tr>
