@@ -33,7 +33,7 @@ class EventCreateView(CreateView):
     model = Event
     form_class = EventForm
     template_name = 'core/event_create.html'
-    success_url = reverse_lazy('event-list')
+    success_url = reverse_lazy('manage')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -64,7 +64,7 @@ class EventUpdateView(UpdateView):
 class EventDeleteView(DeleteView):
     model           = Event
     template_name   = 'core/event_delete.html'
-    success_url = reverse_lazy('event-list')
+    success_url = reverse_lazy('manage')
 
 
 def sign_up(request):
