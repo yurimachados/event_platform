@@ -54,8 +54,48 @@ Gerenciar
                 </tbody>
             </table>
         </div>
+        <hr class='mt-5'>
         <div>
-            <h3>Tickets</h3>
+            <div class='mt-3'>
+                <h3>Ingressos</h3>  
+                <a href="" class="btn btn-primary mb-3">+ Ingresso</a>
+                <table class="table custom-table table-hover">
+                    <thead class='thead-dark'>
+                        <tr class=''>
+                            <th scope="col">#</th>
+                            <th scope="col">Ingresso</th>
+                            <th scope="col">Evento</th>
+                            <th scope="col">Produtora</th>
+                            <th scope="col">Preço</th>
+                            <th scope="col">Data</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for ticket in tickets %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td scope='row'>{{ ticket.name }}</td>
+                            <td scope='row'>{{ ticket.event.title }}</td>
+                            <td scope='row'>{{ ticket.event.company }}</td>
+                            <td scope='row'>{{ ticket.price }}</td>
+                            <td scope='row'>{{ ticket.event.date|date:'d/m/y H:i' }}</td>
+                            <td scope='row'>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        Ações
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="">Editar</a></li>
+                                        <li><a class="dropdown-item" href="">Excluir</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
