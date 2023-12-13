@@ -99,3 +99,7 @@ def user_tickets(request):
 @login_required(login_url='login')
 def home(request):
     return render(request, 'core/home.html')
+
+@login_required(login_url='login')
+def manage(request):
+    return render(request, 'core/manage/manage.html')

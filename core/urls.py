@@ -18,6 +18,9 @@ urlpatterns = [
     # path('ticket-detail/<int:pk>/', views.ticket_details, name='ticket-details'),
     # path('ticket-detail/<int:pk>/', views.ticket_details, name='ticket-details'),
 
+    #Management URLs
+    path('manage/', views.manage, name='manage'),
+
     #login urls
     path('sign-up/', views.sign_up, name='sign_up'),
 ]
