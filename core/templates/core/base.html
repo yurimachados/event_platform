@@ -36,13 +36,15 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
+            <li class="nav-item {% if request.path == '/' %}active{% endif %}">
               <a class="nav-link" href="#">Home</a>
             </li>
-            <li class="nav-item">
+            {% url 'event-list' as event_list_url %}
+            <li class="nav-item {% if request.path == event_list_url %} active {% endif %}">
               <a class="nav-link" href="{% url 'event-list' %}">Eventos</a>
             </li>
-            <li class="nav-item">
+            {% url 'user-tickets' as user_tickets_url %}
+            <li class="nav-item {% if request.path == user_tickets_url %} active {% endif %}">
               <a class="nav-link" href="{% url 'user-tickets' %}">Meus Ingressos</a>
             </li>
             <li class="nav-item">
