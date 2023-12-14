@@ -1,0 +1,34 @@
+{% extends "../base.html" %}
+
+{% block title %}
+ {{ ticket.name }} - editar
+{% endblock %}
+
+{% block extra_head %}
+<script>
+
+</script>
+{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+  <div class='card'>
+    <form method="POST" class='' enctype="multipart/form-data">
+      <div class='card-header'>
+        <h4>{{event.title}}</h4>
+      </div>
+      <div class='card-body'>
+        {% csrf_token %}
+        {{form|crispy}}
+      </div>
+      <div class='card-footer'>
+        <button type='submit' class="btn btn-primary">Salvar</button>
+        <a href="{% url 'manage' %}" class="btn btn-secondary">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

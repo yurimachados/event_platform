@@ -23,6 +23,7 @@ urlpatterns = [
     path('manage/event-update/<int:event_id>', views.manage_event_update, name='manage-event-update'),
     path('manage/ticket-create/', views.ticket_create, name='ticket-create'),
     path('manage/ticket-delete/<int:ticket_id>', views.ticket_delete, name='ticket-delete'),
+    path('manage/ticket-update/<int:ticket_id>', views.ticket_update, name='ticket-update'),
 
     #login urls
     path('sign-up/', views.sign_up, name='sign_up'),

@@ -120,6 +120,21 @@ def manage(request):
         d_ticket = None
         d_time = None
 
+    # Verifica se o ticket foi atualizado
+    if 'ticket_updated' in request.session:
+        ticket_updated = request.session.get('ticket_updated')
+        u_ticket = request.session['u_ticket']
+        u_time_str = request.session['u_time']
+        u_time = datetime.datetime.fromisoformat(u_time_str) - datetime.timedelta(hours=3)
+
+        del request.session['ticket_updated']
+        del request.session['u_ticket']
+        del request.session['u_time']
+    else:
+        ticket_updated = False
+        u_ticket = None
+        u_time = None
+
     events = Event.objects.all()
     tickets = Ticket.objects.all()
     tickets_purchases = TicketPurchase.objects.all()
@@ -130,7 +145,10 @@ def manage(request):
         'tickets_purchases': tickets_purchases,
         'ticket_deleted': ticket_deleted,
         'd_ticket': d_ticket,
-        'd_time': d_time
+        'd_time': d_time,
+        'ticket_updated': ticket_updated,
+        'u_ticket': u_ticket,
+        'u_time': u_time
     })
 
 def manage_event_update(request, event_id):
@@ -169,3 +187,23 @@ def ticket_delete(request, ticket_id):
     request.session['d_time'] = deletion_time
 
     return redirect('/manage')
+
+@login_required(login_url='login')
+def ticket_update(request, ticket_id):
+    ticket = Ticket.objects.get(pk=ticket_id)
+    if request.method == 'POST':
+        form = TicketForm(request.POST, instance=ticket)
+        if form.is_valid():
+            form.save()
+            ticket_name = ticket.name
+            ticket_updated = True
+            update_time = datetime.datetime.now().isoformat()
+
+            request.session['ticket_updated'] = ticket_updated
+            request.session['u_ticket'] = ticket_name
+            request.session['u_time'] = update_time
+            return redirect('/manage')
+    else:
+        form = TicketForm(instance=ticket)
+
+    return render(request, 'core/manage/ticket_update.html', {"form": form})
