@@ -1,3 +1,5 @@
+import datetime
+from django.utils import timezone
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect, get_object_or_404
@@ -102,10 +104,34 @@ def home(request):
 
 @login_required(login_url='login')
 def manage(request):
+
+    # Verifica se o ticket foi deletado
+    if 'ticket_deleted' in request.session:
+        ticket_deleted = request.session.get('ticket_deleted')
+        d_ticket = request.session['d_ticket']
+        d_time_str = request.session['d_time']
+        d_time = datetime.datetime.fromisoformat(d_time_str) - datetime.timedelta(hours=3)
+
+        del request.session['ticket_deleted']
+        del request.session['d_ticket']
+        del request.session['d_time']
+    else:
+        ticket_deleted = False
+        d_ticket = None
+        d_time = None
+
     events = Event.objects.all()
     tickets = Ticket.objects.all()
     tickets_purchases = TicketPurchase.objects.all()
-    return render(request, 'core/manage/manage.html', {'events': events, 'tickets': tickets, 'tickets_purchases': tickets_purchases})
+
+    return render(request, 'core/manage/manage.html', {
+        'events': events,
+        'tickets': tickets,
+        'tickets_purchases': tickets_purchases,
+        'ticket_deleted': ticket_deleted,
+        'd_ticket': d_ticket,
+        'd_time': d_time
+    })
 
 def manage_event_update(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
@@ -129,3 +155,17 @@ def ticket_create(request):
     else:   
         form = TicketForm()
     return render(request, 'core/manage/ticket_create.html', {"form": form})
+
+@login_required(login_url='login')
+def ticket_delete(request, ticket_id):
+    ticket = get_object_or_404(Ticket, pk=ticket_id)
+    ticket_name = ticket.name
+    deletion_time = datetime.datetime.now().isoformat()
+    ticket.delete()
+
+    # Adicione os dados necessários à sessão
+    request.session['ticket_deleted'] = True
+    request.session['d_ticket'] = ticket_name
+    request.session['d_time'] = deletion_time
+
+    return redirect('/manage')
