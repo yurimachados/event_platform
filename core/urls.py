@@ -24,6 +24,7 @@ urlpatterns = [
     path('manage/ticket-create/', views.ticket_create, name='ticket-create'),
     path('manage/ticket-delete/<int:ticket_id>', views.ticket_delete, name='ticket-delete'),
     path('manage/ticket-update/<int:ticket_id>', views.ticket_update, name='ticket-update'),
+    path('manage/ticket-status-change/<int:ticket_id>', views.ticket_status_change, name='ticket-status-change'),
 
     #login urls
     path('sign-up/', views.sign_up, name='sign_up'),
