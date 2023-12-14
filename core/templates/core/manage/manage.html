@@ -15,6 +15,12 @@ Gerenciar
     right: 2rem;
     z-index: 9999;
 }
+#updateToast {
+    position: fixed;
+    top: 4rem;
+    right: 2rem;
+    z-index: 9999;
+}
 </style>
 <script>
 
@@ -94,7 +100,7 @@ Gerenciar
                                         Ações
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item btn-danger" href="">Editar</a></li>
+                                        <li><a class="dropdown-item btn-danger" href="{% url 'ticket-update' ticket.id %}">Editar</a></li>
                                         <li><a class="dropdown-item" data-toggle='modal' data-target='#deleteModal' data-ticket-id='{{ ticket.id }}'>Excluir</a></li>
                                     </ul>
                                 </div>
@@ -134,6 +140,19 @@ Gerenciar
                 </div>
                 <input type="hidden" id="ticketDeleted" value="{{ ticket_deleted }}">
             </div>
+            <div class="toast" id="updateToast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="mr-auto">Event Hub</strong>
+                    <small class="text-muted">{{ u_time|date:"d/m/Y H:i" }} </small>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    Ingresso <strong>{{ u_ticket }}</strong> editado com sucesso!
+                </div>
+                <input type="hidden" id="ticketUpdated" value="{{ ticket_updated }}">
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -143,6 +162,9 @@ Gerenciar
 $(document).ready(function(){
     if ($('#ticketDeleted').val() == 'True') {
         $('#deletionToast').toast({ autohide: false }).toast('show');
+    }
+    if ($('#ticketUpdated').val() == 'True') {
+        $('#updateToast').toast({ autohide: false }).toast('show');
     }
 });
 $('#deleteModal').on('show.bs.modal', function(event) {  
