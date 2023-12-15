@@ -26,10 +26,11 @@ class TicketForm(forms.ModelForm):
 
     class Meta:
         model = Ticket
-        fields = ['event', 'name', 'price', 'available' ]
+        fields = ['event', 'name', 'price', 'available', 'quantity' ]
         labels = {
             'event': 'Evento',
             'ticket_name': 'Nome',
             'price': 'Preço',
-            'available': 'Disponível'
+            'available': 'Disponível',
+            'quantity': 'Quantidade'
         }
