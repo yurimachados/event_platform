@@ -7,10 +7,19 @@ class Ticket(models.Model):
     event               = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='tickets')
     name                = models.CharField(max_length=255)
     price               = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity            = models.IntegerField()
     available           = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.event.title} - {self.name} - R$ {self.price}"
+    
+    def get_quantity_sold(self):
+        tickets_sold = TicketPurchase.objects.filter(ticket=self)
+        return tickets_sold.count()
+    
+    def update_quantity(self):
+        self.quantity = self.quantity - 1
+        self.save()
     
     class Meta:
         verbose_name = 'Ticket'

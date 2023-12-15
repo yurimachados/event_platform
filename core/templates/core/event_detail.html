@@ -62,12 +62,12 @@
           </thead>
           <tbody>
             {% for ticket in tickets %}
-            <tr class="{% if not ticket.available %}table-secondary{% endif %}">
+            <tr class="{% if not ticket.available or ticket.quantity == 0 %}table-secondary{% endif %}">
               <td class='ticket-name'>{{ ticket.name }}</td>
               <td class='ticket-price'>{% if ticket.price == 0 %} Free {% else %} R${{ ticket.price }}{% endif %}</td>
-              <td>{% if not ticket.available %}Esgotado{% else %} 0 {% endif %}</td>
+              <td>{% if not ticket.available %}Indisponível{% else %} {{ticket.quantity}} {% endif %}</td>
               <td>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#purchaseModal{{ ticket.id }}" {% if not ticket.available %}disabled{% endif %}>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#purchaseModal{{ ticket.id }}" {% if not ticket.available or ticket.quantity == 0 %}disabled{% endif %}>
                   Comprar
                 </button>
               </td>
