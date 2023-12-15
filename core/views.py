@@ -96,8 +96,14 @@ def buy_ticket(request, ticket_id):
         messages.error(request, 'O ingresso não está disponível.')
         return redirect('event-detail', pk=ticket.event.id)
 
+    if ticket.quantity == 0:
+        messages.error(request, 'O ingresso está esgotado.')
+        return redirect('event-detail', pk=ticket.event.id)
+    
     TicketPurchase.objects.create(ticket=ticket, buyer=request.user)
-    return redirect('/event-list')
+    messages.success(request, 'Ingresso comprado com sucesso!')
+    ticket.update_quantity()
+    return redirect('event-detail', pk=ticket.event.id)
 
 @login_required(login_url='login')
 def user_tickets(request):
