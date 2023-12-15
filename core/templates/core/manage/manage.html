@@ -81,6 +81,7 @@ Gerenciar
                             <th scope="col">Evento</th>
                             <th scope="col">Produtora</th>
                             <th scope="col">Preço</th>
+                            <th scope="col">Disponível</th>
                             <th scope="col">Data</th>
                             <th scope="col">Ações</th>
                         </tr>
@@ -93,6 +94,11 @@ Gerenciar
                             <td scope='row'>{{ ticket.event.title }}</td>
                             <td scope='row'>{{ ticket.event.company }}</td>
                             <td scope='row'>R${{ ticket.price }}</td>
+                            <td scope='row'>
+                                <div class="custom-control custom-switch d-flex justify-content-center align-items-center">
+                                    <input type="checkbox" class="custom-control-input ticket-available-input" data-id="{{ ticket.id }}" id="availableSwitch{{ ticket.id }}" name="available" {% if ticket.available %}checked{% endif %}>
+                                    <label class="custom-control-label" for="availableSwitch{{ ticket.id }}"></label>
+                                </div>
                             <td scope='row'>{{ ticket.event.date|date:'d/m/y H:i' }}</td>
                             <td scope='row'>
                                 <div class="btn-group" role="group">
@@ -158,6 +164,8 @@ Gerenciar
 {% endblock %}
 
 {% block extra_scripts %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script>
 $(document).ready(function(){
     if ($('#ticketDeleted').val() == 'True') {
@@ -166,6 +174,18 @@ $(document).ready(function(){
     if ($('#ticketUpdated').val() == 'True') {
         $('#updateToast').toast({ autohide: false }).toast('show');
     }
+    $('.ticket-available-input').on('change', function(){
+        let ticketId = $(this).data('id');
+        let available = $(this).is(':checked');
+        $.ajax({
+            url: '/manage/ticket-status-change/' + ticketId,
+            type: 'POST',
+            data: {
+                'available': available,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            }
+        })
+    })
 });
 $('#deleteModal').on('show.bs.modal', function(event) {  
     console.log('modal aberto')
