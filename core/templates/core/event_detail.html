@@ -33,6 +33,10 @@
     background-color: #ffffffd9;
     color: #000;
   }
+  #ticket-title{
+    display: flex;
+    justify-content: center;
+  }
 </style>
 {% endblock %}
 
@@ -46,6 +50,7 @@
       <div class='card-body'>
         <strong>Local: {{ event.location }}</strong>
         <p>{{ event.description }}</p>
+        <h3 class='mt-5' id='ticket-title'>Ingressos</h3>
         <table class="table text-center">
           <thead>
             <tr>
