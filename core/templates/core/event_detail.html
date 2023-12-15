@@ -5,6 +5,35 @@
 {% endblock %}
 
 {% block extra_head %}
+<style>
+  .ticket-name {
+    margin: 0;
+    padding: inherit;
+  }
+  .ticket-price {
+    margin: 0;
+    padding: inherit;
+  }
+  .ticket-available {
+    display: flex;
+    margin-left: 10px;
+    height: 15px;
+    width: 10px;
+    padding: inherit;
+    align-items: center;
+    justify-content: center;
+  }
+  .MessageToast {
+    position: fixed;
+    top: 4rem;
+    right: 1.5rem;
+    z-index: 9999;
+  }
+  .toast-body {
+    background-color: #ffffffd9;
+    color: #000;
+  }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -17,17 +46,30 @@
       <div class='card-body'>
         <strong>Local: {{ event.location }}</strong>
         <p>{{ event.description }}</p>
-        <div class="list-group">
-          {% for ticket in tickets %}
-          <li class='list-group-item d-flex flex-row justify-content-between'>
-              <p>{{ ticket.name }}</p>
-              <p>{% if ticket.price == 0 %} Free {% else %} R${{ ticket.price }}{% endif %}</p>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#purchaseModal{{ ticket.id }}">
-                Comprar
-              </button>
-          </li>
-          {% endfor %}
-        </div>            
+        <table class="table text-center">
+          <thead>
+            <tr>
+              <th scope="col">Nome</th>
+              <th scope="col">Preço</th>
+              <th scope="col">Disponibilidade</th>
+              <th scope="col">Ação</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for ticket in tickets %}
+            <tr class="{% if not ticket.available %}table-secondary{% endif %}">
+              <td class='ticket-name'>{{ ticket.name }}</td>
+              <td class='ticket-price'>{% if ticket.price == 0 %} Free {% else %} R${{ ticket.price }}{% endif %}</td>
+              <td>{% if not ticket.available %}Esgotado{% else %} 0 {% endif %}</td>
+              <td>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#purchaseModal{{ ticket.id }}" {% if not ticket.available %}disabled{% endif %}>
+                  Comprar
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>            
       </div>         
   </div>
   {% for ticket in tickets %}
@@ -51,8 +93,25 @@
       </div>
     </div>
   {% endfor %}
+  {% for message in messages %}
+    <div class="MessageToast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="mr-auto">Event Hub</strong>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body">
+        {{ message }}
+      </div>
+    </div>
+  {% endfor %}
 
 {% endblock %}
 {% block extra_scripts %}
-
+<script>
+  $(document).ready(function(){
+    $('.MessageToast').toast({ autohide: false }).toast('show');
+  });
+</script>
 {% endblock %}

@@ -1,5 +1,5 @@
 import datetime
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect, get_object_or_404
@@ -8,6 +8,7 @@ from .forms import RegistrationForm, EventForm, TicketForm
 from django import forms
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
@@ -91,6 +92,10 @@ def event_tickets(request, event_id):
 @login_required(login_url='login')
 def buy_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
+    if not ticket.available:
+        messages.error(request, 'O ingresso não está disponível.')
+        return redirect('event-detail', pk=ticket.event.id)
+
     TicketPurchase.objects.create(ticket=ticket, buyer=request.user)
     return redirect('/event-list')
 
