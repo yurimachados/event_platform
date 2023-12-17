@@ -1,0 +1,15 @@
+.custom-table {
+    background-color: white;
+}
+#deletionToast {
+    position: fixed;
+    top: 4rem;
+    right: 1.5rem;
+    z-index: 9999;
+}
+#updateToast {
+    position: fixed;
+    top: 4rem;
+    right: 1.5rem;
+    z-index: 9999;
+}

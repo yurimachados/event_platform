@@ -70,13 +70,16 @@ def ticket_status_change(request, ticket_id):
     ticket = Ticket.objects.get(pk=ticket_id)
     if ticket.available == False:
         ticket.available = True
+        message = f'Ingresso <strong>{ticket.name}</strong> agora está disponível!'
     else:
         ticket.available = False
-    ticket.save()
+        message = f'Ingresso <strong>{ticket.name}</strong> agora está indisponível!'
     
-    messages.success(request, mark_safe(f'Ingresso <strong>{ticket.name}</strong> atualizado com sucesso!'))
+    ticket.save()
+
     return JsonResponse(
         {
             'status': 'success',
+            'message': message
         }
     )
