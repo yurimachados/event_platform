@@ -5,30 +5,10 @@ Gerenciar
 {% endblock %}
 
 {% block extra_head %}
-<style>
-.custom-table {
-    background-color: white;
-}
-#deletionToast {
-    position: fixed;
-    top: 4rem;
-    right: 1.5rem;
-    z-index: 9999;
-}
-#updateToast {
-    position: fixed;
-    top: 4rem;
-    right: 1.5rem;
-    z-index: 9999;
-}
-</style>
-<script>
-
-</script>
+{% load static %}
+<link rel='stylesheet' href='{% static "css/manage.css" %}'>
 {% endblock %}
-{% load crispy_forms_tags %}
 
-{% block content %}
     <div class='container'>
         <h1>Oi <strong>@{{ user.username }}</strong>, 👋</h1>
         <h1>Bem vindo ao Dashboard Gerencial.</h1>
@@ -136,32 +116,7 @@ Gerenciar
         </div>
     </div>
 {% endblock %}
-
 {% block extra_scripts %}
-<script>
-$(document).ready(function(){
-    $('.ticket-available-input').on('change', function(){
-        let ticketId = $(this).data('id');
-        let available = $(this).is(':checked');
-        $.ajax({
-            url: '/manage/ticket-status-change/' + ticketId,
-            type: 'POST',
-            data: {
-                'available': available,
-                'csrfmiddlewaretoken': '{{ csrf_token }}'
-            }
-        })
-    })
-});
-$('#deleteModal').on('show.bs.modal', function(event) {  
-    console.log('modal aberto')
-    console.log(event)     
-    var button = $(event.relatedTarget) // Botão que acionou o modal
-    var ticketId = button.data('ticket-id') // Extrai informações dos atributos data-*
-    console.log(ticketId)
-    var url = "/manage/ticket-delete/" + ticketId // Constrói a URL para a view de exclusão
-    console.log(url)
-    $("#confirmDelete").attr('href', url) // Atualiza o link de confirmação de exclusão
-})
-</script>
+{% load static %}
+<script src='{% static "js/manage.js" %}'></script>
 {% endblock %}
