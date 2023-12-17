@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import EventListView, EventDetailView, EventCreateView, EventUpdateView, EventDeleteView
+from .views import EventListView, EventDetailView, EventCreateView
 from . import views
 
 urlpatterns = [
@@ -8,8 +8,8 @@ urlpatterns = [
     path('event-list/', EventListView.as_view(), name='event-list'),
     path('event-detail/<int:pk>/', EventDetailView.as_view(), name='event-detail'),
     path('event-create/', EventCreateView.as_view(), name='event-create'),
-    path('event-update/<int:pk>/', EventUpdateView.as_view(), name='event-update'),
-    path('event-delete/<int:pk>', EventDeleteView.as_view(), name='event-delete'),
+    path('event-update/<int:event_id>/', views.event_update, name='event-update'),
+    path('event-delete/<int:event_id>', views.event_delete, name='event-delete'),
 
     #ticket urls
     path('event-tickets/<int:event_id>', views.event_tickets, name='event-tickets'),
@@ -20,7 +20,7 @@ urlpatterns = [
 
     #Management URLs
     path('manage/', views.manage, name='manage'),
-    path('manage/event-update/<int:event_id>', views.manage_event_update, name='manage-event-update'),
+    path('manage/event-update/<int:event_id>', views.event_update, name='event-update'),
     path('manage/ticket-create/', views.ticket_create, name='ticket-create'),
     path('manage/ticket-delete/<int:ticket_id>', views.ticket_delete, name='ticket-delete'),
     path('manage/ticket-update/<int:ticket_id>', views.ticket_update, name='ticket-update'),
