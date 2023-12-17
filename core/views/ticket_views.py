@@ -36,6 +36,7 @@ def ticket_create(request):
         form = TicketForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Ingresso criado com sucesso!')
             return redirect('/manage')
     else:   
         form = TicketForm()
