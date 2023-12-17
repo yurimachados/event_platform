@@ -6,6 +6,7 @@ from django.shortcuts import redirect, get_object_or_404, render
 from core.models import Ticket, TicketPurchase
 from core.forms import TicketForm
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.safestring import mark_safe
 
 
 @login_required(login_url='login')
@@ -20,7 +21,7 @@ def buy_ticket(request, ticket_id):
         return redirect('event-detail', pk=ticket.event.id)
         
     TicketPurchase.objects.create(ticket=ticket, buyer=request.user)
-    messages.success(request, 'Ingresso comprado com sucesso!')
+    messages.success(request, mark_safe(f'Ingresso <strong>{ticket.name}</strong> comprado com sucesso!'))
     ticket.update_quantity()
     return redirect('event-detail', pk=ticket.event.id)
 
@@ -36,6 +37,7 @@ def ticket_create(request):
         form = TicketForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Ingresso criado com sucesso!')
             return redirect('/manage')
     else:   
         form = TicketForm()
@@ -44,15 +46,9 @@ def ticket_create(request):
 @login_required(login_url='login')
 def ticket_delete(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
-    ticket_name = ticket.name
-    deletion_time = datetime.datetime.now().isoformat()
     ticket.delete()
 
-    # Adicione os dados necessários à sessão
-    request.session['ticket_deleted'] = True
-    request.session['d_ticket'] = ticket_name
-    request.session['d_time'] = deletion_time
-
+    messages.success(request, mark_safe(f'Ingresso <strong>{ticket.name}</strong> deletado com sucesso!'))
     return redirect('/manage')
 
 @login_required(login_url='login')
@@ -62,13 +58,7 @@ def ticket_update(request, ticket_id):
         form = TicketForm(request.POST, instance=ticket)
         if form.is_valid():
             form.save()
-            ticket_name = ticket.name
-            ticket_updated = True
-            update_time = datetime.datetime.now().isoformat()
-
-            request.session['ticket_updated'] = ticket_updated
-            request.session['u_ticket'] = ticket_name
-            request.session['u_time'] = update_time
+            messages.success(request, mark_safe(f'Ingresso <strong>{ticket.name}</strong> atualizado com sucesso!'))
             return redirect('/manage')
     else:
         form = TicketForm(instance=ticket)
@@ -84,10 +74,7 @@ def ticket_status_change(request, ticket_id):
         ticket.available = False
     ticket.save()
     
-    request.session['ticket_updated'] = True
-    request.session['u_ticket'] = ticket.name
-    request.session['u_time'] = datetime.datetime.now().isoformat()
-
+    messages.success(request, mark_safe(f'Ingresso <strong>{ticket.name}</strong> atualizado com sucesso!'))
     return JsonResponse(
         {
             'status': 'success',
