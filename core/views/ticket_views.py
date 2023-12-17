@@ -74,9 +74,9 @@ def ticket_status_change(request, ticket_id):
     else:
         ticket.available = False
         message = f'Ingresso <strong>{ticket.name}</strong> agora está indisponível!'
-    ticket.save()
     
-    # messages.success(request, mark_safe(f'Ingresso <strong>{ticket.name}</strong> atualizado com sucesso!'))
+    ticket.save()
+
     return JsonResponse(
         {
             'status': 'success',
