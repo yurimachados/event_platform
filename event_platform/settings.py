@@ -32,6 +32,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+STATIC_URL = '/static/'
+
 TIME_ZONE = 'America/Sao_Paulo'
 USE_TZ = True
 

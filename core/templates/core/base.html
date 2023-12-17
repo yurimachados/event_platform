@@ -16,7 +16,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <!-- Bootstrap CDN -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/messages.css' %}">
     <style>
         body {
             background: #f1faee;
@@ -104,11 +105,7 @@
       {% endfor %}
       {% block content %}{% endblock %}
     </div>
-    <script>
-        $(document).ready(function(){
-          $('.MessageToast').toast({ autohide: false }).toast('show');
-        });
-    </script>
+    <script src='{% static "js/messages.js" %}'></script>
     {% block extra_scripts %}{% endblock %}
 </body>
 </html>

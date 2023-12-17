@@ -17,9 +17,6 @@ ENV/
 # Arquivos locais de configuração
 local_settings.py
 
-# Pasta usada para estáticos pelo comando collectstatic
-static/
-
 # Pasta media usada para arquivos enviados pelos usuários
 media/
 

@@ -1,0 +1,18 @@
+.MessageToast {
+    position: fixed;
+    top: 4rem;
+    right: 1.5rem;
+    z-index: 9999;
+}
+.toast-body {
+    background-color: #ffffffd9;
+    color: #000;
+}
+.message-success{
+    background-color: #28a745;
+    color: #fff;
+}
+.message-error{
+    background-color: #dc3545;
+    color: #fff;
+}
