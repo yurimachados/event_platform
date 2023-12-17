@@ -8,17 +8,34 @@ $(document).ready(function(){
             data: {
                 'available': available,
                 'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response){
+                if(response.status == 'success'){
+                    showMessage(response.message);
+   
+                }
             }
         })
     })
+    $('#deleteModal').on('show.bs.modal', function(event) {     
+        var button = $(event.relatedTarget) // Botão que acionou o modal
+        var ticketId = button.data('ticket-id') // Extrai informações dos atributos data-*
+        var url = "/manage/ticket-delete/" + ticketId // Constrói a URL para a view de exclusão
+        $("#confirmDelete").attr('href', url) // Atualiza o link de confirmação de exclusão
+    })
+
+    // Função para exibir mensagens recebidas via ajax
+    function showMessage(message){
+
+        $('.MessageToast').remove()
+
+        let messageToast = "<div id='AjaxMessageToast'class='MessageToast message-success' role='alert' aria-live='assertive' aria-atomic='true'><div class='toast-header'><strong class='mr-auto'>Event Hub</strong><button type='button' class='ml-2 mb-1 close' data-dismiss='toast' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div><div class='toast-body'><p>" + message + "</p></div></div>"
+
+        $('.main-container').prepend(messageToast);
+
+        $('#AjaxMessageToast .close').on('click', function(){
+            $('#AjaxMessageToast').remove();
+        })
+    }
+
 });
-$('#deleteModal').on('show.bs.modal', function(event) {  
-    console.log('modal aberto')
-    console.log(event)     
-    var button = $(event.relatedTarget) // Botão que acionou o modal
-    var ticketId = button.data('ticket-id') // Extrai informações dos atributos data-*
-    console.log(ticketId)
-    var url = "/manage/ticket-delete/" + ticketId // Constrói a URL para a view de exclusão
-    console.log(url)
-    $("#confirmDelete").attr('href', url) // Atualiza o link de confirmação de exclusão
-})

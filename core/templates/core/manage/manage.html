@@ -8,7 +8,9 @@ Gerenciar
 {% load static %}
 <link rel='stylesheet' href='{% static "css/manage.css" %}'>
 {% endblock %}
+{% load crispy_forms_tags %}
 
+{% block content %}
     <div class='container'>
         <h1>Oi <strong>@{{ user.username }}</strong>, 👋</h1>
         <h1>Bem vindo ao Dashboard Gerencial.</h1>
