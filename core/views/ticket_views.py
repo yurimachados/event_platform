@@ -66,7 +66,8 @@ def ticket_update(request, ticket_id):
     return render(request, 'core/manage/ticket_update.html', {"form": form})
 
 @csrf_exempt
-def ticket_status_change(request, ticket_id):
+@login_required(login_url='login')
+def ticket_status_change(ticket_id):
     ticket = Ticket.objects.get(pk=ticket_id)
     if ticket.available == False:
         ticket.available = True
